@@ -41,11 +41,11 @@ export default function C_Home() {
      * *********************************
      */
     // J'injecte l'humidité dans le document HTML
-    humidityPercent[0].innerHTML = data.main.humidity;
+    humidityPercent[0].innerHTML = data.main.humidity +"%";
     // J'injecte la vitesse du vent dans le document HTML
-    windRate[0].innerHTML = data.wind.speed;
+    windRate[0].innerHTML = data.wind.speed +'km/h';
     // J'injecte la température dans le document HTML
-    temperature[0].innerHTML = data.main.temp;
+    temperature[0].innerHTML = data.main.temp +'°C';
     // J'injecte le nom de la ville dans le document HTML
     location[0].innerHTML = data.name;
   };
