@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import search from "./Assets/search.png";
-import clearIcon from './Assets/clear.png' 
+import clearIcon from "./Assets/clear.png";
 import cloud from "./Assets/cloud.png";
 import drizzle from "./Assets/drizzle.png";
 import humidityIcon from "./Assets/humidity.png";
@@ -23,7 +23,7 @@ export default function C_Home() {
     main: { humidity: 0 },
     wind: { speed: 0 },
     name: "Libreville",
-    weather: [{ icon: "01d" }]
+    weather: [{ icon: "01d" }],
   });
 
   useEffect(() => {
@@ -39,9 +39,19 @@ export default function C_Home() {
       setWindic(clearIcon);
     } else if (weatherIcon === "02d" || weatherIcon === "02n") {
       setWindic(cloud);
-    } else if (weatherIcon === "03d" || weatherIcon === "03n" || weatherIcon === "04d" || weatherIcon === "04n") {
+    } else if (
+      weatherIcon === "03d" ||
+      weatherIcon === "03n" ||
+      weatherIcon === "04d" ||
+      weatherIcon === "04n"
+    ) {
       setWindic(drizzle);
-    } else if (weatherIcon === "09d" || weatherIcon === "09n" || weatherIcon === "10d" || weatherIcon === "10n") {
+    } else if (
+      weatherIcon === "09d" ||
+      weatherIcon === "09n" ||
+      weatherIcon === "10d" ||
+      weatherIcon === "10n"
+    ) {
       setWindic(rain);
     } else if (weatherIcon === "13d" || weatherIcon === "13n") {
       setWindic(snow);
@@ -115,7 +125,9 @@ export default function C_Home() {
           <div className="element">
             <img src={humidityIcon} alt="" className="icon" />
             <div className="data">
-              <div className="humidity-percent">{weatherData.main.humidity}%</div>
+              <div className="humidity-percent">
+                {weatherData.main.humidity}%
+              </div>
               <div className="text">Humidité</div>
             </div>
           </div>
