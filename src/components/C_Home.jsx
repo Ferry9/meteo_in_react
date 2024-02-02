@@ -64,25 +64,8 @@ export default function C_Home() {
     let res = await fetch(url);
     let data = await res.json();
 
-    // Je sélectionne les éléments HTML où injecter les données météo
-    const humidityPercent = document.getElementsByClassName("humidity-percent");
-    const windRate = document.getElementsByClassName("wind-rate");
-    const temperature = document.getElementsByClassName("weather-temp");
-    const location = document.getElementsByClassName("weather-location");
-
-    /**
-     * *********************************
-     * Injection des données sur la page
-     * *********************************
-     */
-    // J'injecte l'humidité dans le document HTML
-    humidityPercent[0].innerHTML = data.main.humidity;
-    // J'injecte la vitesse du vent dans le document HTML
-    windRate[0].innerHTML = data.wind.speed;
-    // J'injecte la température dans le document HTML
-    temperature[0].innerHTML = data.main.temp;
-    // J'injecte le nom de la ville dans le document HTML
-    location[0].innerHTML = data.name;
+    // Je mets à jour l'état des données météo
+    setWeatherData(data);
   };
 
   // Quand j'appuie sur la touche "Enter" dans l'input, je déclenche cette fonction
