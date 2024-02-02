@@ -83,7 +83,7 @@ export default function C_Home() {
       <div className="container w-96 h-screen">
         {/* Titre */}
         <p className="text-center text-white pt-4 text-xl titre">
-          Application Météo
+          Fine Tech Météo App
         </p>
         {/* Input de recherche */}
         <div className="top-bar flex justify-center pt-5 gap-4 place-items-center">
