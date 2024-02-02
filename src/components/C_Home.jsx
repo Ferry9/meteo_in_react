@@ -1,19 +1,54 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import search from "./Assets/search.png";
-// import clear from './Assets/clear.png' // Commenté car non utilisé dans le code
+import clearIcon from './Assets/clear.png' 
 import cloud from "./Assets/cloud.png";
-import drizzle from "./Assets/drizzle.png"; // Image non utilisée dans le code
+import drizzle from "./Assets/drizzle.png";
 import humidityIcon from "./Assets/humidity.png";
-import rain from "./Assets/rain.png"; // Image non utilisée dans le code
-import snow from "./Assets/snow.png"; // Image non utilisée dans le code
+import rain from "./Assets/rain.png";
+import snow from "./Assets/snow.png";
 import windIcon from "./Assets/wind.png";
 
 export default function C_Home() {
   // Ma clé API
   const API_KEY = "9f2e1f455e003246d00a9c41b725bbc8";
 
+  // Je gère l'état pour les icônes correspondantes
+  const [windic, setWindic] = useState(clearIcon);
+
   // Je gère l'état local pour la valeur de l'input
   const [cityInput, setCityInput] = useState("");
+
+  // Je gère l'état pour les données météo
+  const [weatherData, setWeatherData] = useState({
+    main: { humidity: 0 },
+    wind: { speed: 0 },
+    name: "Libreville",
+    weather: [{ icon: "01d" }]
+  });
+
+  useEffect(() => {
+    // Quand les données météo changent, je mets à jour l'icône du vent
+    updateWindIcon();
+  }, [weatherData]);
+
+  // Fonction pour mettre à jour l'icône du vent en fonction des données météo
+  const updateWindIcon = () => {
+    const weatherIcon = weatherData.weather[0].icon;
+
+    if (weatherIcon === "01d" || weatherIcon === "01n") {
+      setWindic(clearIcon);
+    } else if (weatherIcon === "02d" || weatherIcon === "02n") {
+      setWindic(cloud);
+    } else if (weatherIcon === "03d" || weatherIcon === "03n" || weatherIcon === "04d" || weatherIcon === "04n") {
+      setWindic(drizzle);
+    } else if (weatherIcon === "09d" || weatherIcon === "09n" || weatherIcon === "10d" || weatherIcon === "10n") {
+      setWindic(rain);
+    } else if (weatherIcon === "13d" || weatherIcon === "13n") {
+      setWindic(snow);
+    } else {
+      setWindic(clearIcon);
+    }
+  };
 
   // Quand je clique sur le bouton de recherche, je déclenche cette fonction
   const searchIcon = async () => {
@@ -29,25 +64,8 @@ export default function C_Home() {
     let res = await fetch(url);
     let data = await res.json();
 
-    // Je sélectionne les éléments HTML où injecter les données météo
-    const humidityPercent = document.getElementsByClassName("humidity-percent");
-    const windRate = document.getElementsByClassName("wind-rate");
-    const temperature = document.getElementsByClassName("weather-temp");
-    const location = document.getElementsByClassName("weather-location");
-
-    /**
-     * *********************************
-     * Injection des données sur la page
-     * *********************************
-     */
-    // J'injecte l'humidité dans le document HTML
-    humidityPercent[0].innerHTML = data.main.humidity;
-    // J'injecte la vitesse du vent dans le document HTML
-    windRate[0].innerHTML = data.wind.speed;
-    // J'injecte la température dans le document HTML
-    temperature[0].innerHTML = data.main.temp;
-    // J'injecte le nom de la ville dans le document HTML
-    location[0].innerHTML = data.name;
+    // Je mets à jour l'état des données météo
+    setWeatherData(data);
   };
 
   // Quand j'appuie sur la touche "Enter" dans l'input, je déclenche cette fonction
@@ -85,19 +103,19 @@ export default function C_Home() {
         </div>
         {/* Récupération de l'image sur le temps qu'il fait */}
         <div className="weather-image pt-10 m-auto flex justify-center">
-          <img src={cloud} alt="#" />
+          <img src={windic} alt="#" />
         </div>
         {/* Température */}
-        <div className="weather-temp">24°C</div>
+        <div className="weather-temp">{weatherData.main.temp}°C</div>
         {/* Lieu */}
-        <div className="weather-location">Libreville</div>
+        <div className="weather-location">{weatherData.name}</div>
         {/* Les données sont affichées ici */}
         <div className="data-container">
           {/* Élément pour l'humidité */}
           <div className="element">
             <img src={humidityIcon} alt="" className="icon" />
             <div className="data">
-              <div className="humidity-percent">64%</div>
+              <div className="humidity-percent">{weatherData.main.humidity}%</div>
               <div className="text">Humidité</div>
             </div>
           </div>
@@ -106,7 +124,7 @@ export default function C_Home() {
           <div className="element">
             <img src={windIcon} alt="" className="icon" />
             <div className="data">
-              <div className="wind-rate">18 Km/H</div>
+              <div className="wind-rate">{weatherData.wind.speed} Km/H</div>
               <div className="text">Vitesse</div>
             </div>
           </div>
