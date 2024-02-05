@@ -106,8 +106,8 @@ export default function C_Home() {
           <img src={windic} alt="#" />
         </div>
         {/* Température */}
-        <div className="weather-temp">{weatherData.main.temp}°C</div>
-        {/* Lieu */}
+        <div className="weather-temp">{(weatherData.main.temp -273.15).toFixed(2)}°C</div>
+        {/* Lieu */} 
         <div className="weather-location">{weatherData.name}</div>
         {/* Les données sont affichées ici */}
         <div className="data-container">
